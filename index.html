@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>领红包</title>
+    <link rel="stylesheet" href="./assets/recet.css" />
+    <script src="./assets/smartscale.js"></script>
+    <script src="https://cdn.bootcdn.net/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+    <script src="./assets/common.js"></script>
+  </head>
+  <style>
+    /* step1 */
+    #step1 {
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.8);
+      margin: 0 auto;
+      font-size: 0.14rem;
+      display: block;
+    }
+    .hb {
+      width: 5.6rem;
+      height: 7.5rem;
+      position: relative;
+      background: transparent url(./assets/hb-bj.png) no-repeat center center;
+      background-size: 100% 100%;
+      border-radius: 0.3rem;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+    }
+    .hb .btn {
+      width: 2.85rem;
+      height: 2.85rem;
+      position: absolute;
+      left: 1.37rem;
+      bottom: 0.8rem;
+    }
+    .hb .btn img {
+      width: 2.85rem;
+      height: 2.85rem;
+    }
+    .download {
+      width: 1rem;
+      height: 0.4rem;
+      border-radius: 8px;
+      background-color: aquamarine;
+    }
+    .rotate1 {
+      animation: circling 1s linear 0s infinite;
+    }
+    @keyframes circling {
+      from {
+        transform: rotateY(0deg);
+      }
+      to {
+        transform: rotateY(360deg);
+      }
+    }
+  </style>
+  <script>
+    $(function () {
+      var UA = navigator.userAgent;
+      var isAndroid = false;
+      var platform = parseInt(getParameter("platform"));
+      if (
+        /(iPhone|iPad|iPod|iOS)/i.test(UA) ||
+        UA.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/)
+      ) {
+        //ios
+        statistics("iosHongbao");
+        alert("很抱歉，当前活动只针对android用户！");
+        return;
+      } else if (/(Android)/i.test(UA)) {
+        //安卓
+        statistics("androidHongbao");
+      } else {
+        //pc
+        alert("请在手机浏览器打开当前页面！");
+        return;
+      }
+      var btn2 = document.getElementById("btn2");
+      var step1 = document.getElementById("step1");
+      // 领取红包
+      $("#btn").click(function () {
+        $("#btn").addClass("rotate1");
+        setTimeout(() => {
+          location.href = "/withdraw.html?platform=" + platform;
+        }, 1000);
+      });
+    });
+  </script>
+  <body>
+    <div id="step1">
+      <div class="hb">
+        <div class="btn" id="btn">
+          <img src="./assets/open.png" alt="" />
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

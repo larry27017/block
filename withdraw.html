@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="./assets/recet.css" />
+    <script src="./assets/smartscale.js"></script>
+    <script src="https://cdn.bootcdn.net/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+    <script src="./assets/common.js"></script>
+    <title>领红包</title>
+  </head>
+  <style>
+    /* step2 */
+    @keyframes scaleDraw {
+      /*定义关键帧、scaleDrew是需要绑定到选择器的关键帧名称*/
+      0% {
+        transform: scale(1); /*开始为原始大小*/
+      }
+      25% {
+        transform: scale(1.1); /*放大1.1倍*/
+      }
+      50% {
+        transform: scale(1);
+      }
+      75% {
+        transform: scale(1.1);
+      }
+    }
+    #step2 {
+      width: 100%;
+      height: 18.15rem;
+      overflow: scroll;
+      background: transparent url("./assets/s-bj2.png") no-repeat center center;
+      background-size: 7.5rem 18.15rem;
+      display: block;
+      z-index: 10;
+      position: relative;
+    }
+    #step2 .notice {
+      width: 6.3rem;
+      height: 0.6rem;
+      line-height: 60px;
+      text-align: center;
+      position: absolute;
+      left: 0.6rem;
+      height: 0.3rem;
+      font-size: 14px;
+      color: #fff;
+    }
+    .notice #value {
+      color: #fff297;
+    }
+    #step2 .btn2 {
+      width: 5.75rem;
+      height: 1rem;
+      position: absolute;
+      top: 7.65rem;
+      left: 0.88rem;
+      border-radius: 0.5rem;
+      animation: scaleDraw 4s ease-in-out infinite;
+      -webkit-animation: scaleDraw 4s ease-in-out infinite;
+    }
+    #step2 .btn2 img {
+      width: 5.75rem;
+      height: 1rem;
+    }
+    #step2 .time {
+      width: 5.75rem;
+      height: 1.4rem;
+      position: absolute;
+      top: 5.8rem;
+      left: 0.88rem;
+      text-align: center;
+      color: #feedd9;
+      font-size: 0.3rem;
+    }
+    #step2 .time .content {
+      width: 4.8rem;
+      height: 0.8rem;
+      color: #feedd9;
+      font-size: 0.36rem;
+      display: flex;
+      margin: 0 auto 0.2rem;
+    }
+    #step2 .time .content .item {
+      width: 0.8rem;
+      height: 0.8rem;
+      text-align: center;
+      line-height: 0.8rem;
+    }
+    #step2 .time .content .kuang {
+      background: transparent url(./assets/kuan.png) no-repeat center center;
+      background-size: 100% 100%;
+    }
+    /* step3 */
+    #step3 {
+      width: 100%;
+      height: 100%;
+      overflow: scroll;
+      background: rgba(0, 0, 0, 0.7) url("./assets/yd.png") no-repeat 1rem 0;
+      background-size: 5.85rem 3.53rem;
+      display: none;
+      z-index: 100;
+      position: fixed;
+      top: 0;
+      left: 0;
+    }
+  </style>
+  <script>
+    $(function () {
+      var UA = navigator.userAgent;
+      var isQQBrower = UA.indexOf("MQQBrowser") != -1 ? true : false;
+      if (
+        /(iPhone|iPad|iPod|iOS)/i.test(UA) ||
+        UA.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/)
+      ) {
+        alert("很抱歉，当前活动只针对android用户！");
+        return;
+      } else if (/(Android)/i.test(UA)) {
+        //安卓
+        if (isWX()) {
+          statistics("wechatWithdrawView");
+        } else {
+          statistics("visitWithdrawView");
+          if (isQQBrower) {
+            statistics("qqVisitWithdrawView");
+          }
+        }
+      } else {
+        alert("请在手机浏览器打开当前页面！");
+        return;
+      }
+      init();
+
+      //初始化第二屏
+      function init() {
+        setInterval(() => {
+          countdown();
+        }, 1000);
+        setNotice();
+      }
+      // 提现
+      $("#btn2").click(function () {
+        if (isWX()) {
+          $("#step3").css("display", "block");
+          statistics("wechatWithdrawDoing");
+        } else {
+          statistics("download");
+          window.location.href = "http://red.youju.mobi/apk/全民进步.apk";
+        }
+      });
+      //设置顶部通告栏
+      function setNotice() {
+        var data = [
+          { content: "L李先生 领取了新人红包", value: "56" },
+          { content: "四叶草 领取了新手红包", value: "12" },
+          { content: "Summer 获得8月分红奖励，提现", value: "2800" },
+        ];
+        var i = 0;
+        $("#content").append(data[0].content);
+        $("#value").append(data[0].value);
+        setInterval(() => {
+          $("#content").empty();
+          $("#value").empty();
+          $("#content").append(data[i].content);
+          $("#value").append(data[i].value);
+          if (i == data.length - 1) i = -1;
+          i = i + 1;
+        }, 5000);
+      }
+      //倒计时
+      function countdown() {
+        var nowtime = new Date().valueOf(), //获取当前时间
+          endtime = new Date(getDate() + " 23:59:59").valueOf(); //结束时间
+        var lefttime = endtime - nowtime, //距离结束时间的毫秒数
+          lefth = Math.floor((lefttime / (1000 * 60 * 60)) % 24), //计算小时数
+          leftm = Math.floor((lefttime / (1000 * 60)) % 60), //计算分钟数
+          lefts =
+            Math.floor((lefttime / 1000) % 60) >= 10
+              ? Math.floor((lefttime / 1000) % 60)
+              : "0" + Math.floor((lefttime / 1000) % 60); //计算秒数
+        // $(".content").empty();
+        // $("#content").text(lefth + " 时 " + leftm + " 分 " + lefts + " 秒");
+        $("#hour").text(lefth);
+        $("#min").text(leftm);
+        $("#sec").text(lefts);
+      }
+      function getDate(type) {
+        let time = new Date();
+        let y = time.getFullYear();
+        let m = time.getMonth() + 1;
+        let d = time.getDate();
+        m = m < 10 ? "0" + m : m;
+        d = d < 10 ? "0" + d : d;
+        return y + "-" + m + "-" + d;
+      }
+    });
+  </script>
+  <body>
+    <div id="step2">
+      <div class="notice">
+        <span id="content"></span>
+        <span id="value"></span> 元
+      </div>
+      <div class="btn2" id="btn2">
+        <img src="./assets/anniu.png" alt="" />
+      </div>
+      <div class="time">
+        <div class="content">
+          <div class="item kuang" id="hour"></div>
+          <div class="item">时</div>
+          <div class="item kuang" id="min"></div>
+          <div class="item">分</div>
+          <div class="item kuang" id="sec"></div>
+          <div class="item">秒</div>
+        </div>
+        <p>后红包将消失</p>
+      </div>
+    </div>
+    <div id="step3"></div>
+  </body>
+</html>
