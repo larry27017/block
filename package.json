@@ -1,0 +1,22 @@
+{
+  "name": "blocks",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lilei27017/block.git"
+  },
+  "author": "larry",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/lilei27017/block/issues"
+  },
+  "homepage": "https://github.com/lilei27017/block#readme",
+  "dependencies": {
+    "node-static": "^0.7.11"
+  }
+}
